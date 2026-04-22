@@ -1,0 +1,5 @@
+.sgn-page {
+  background: var(--sgn-bg);
+  color: var(--sgn-ink);
+  min-height: 100vh;
+}
