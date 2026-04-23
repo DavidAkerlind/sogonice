@@ -1,19 +1,13 @@
-import { useRef, useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiMail, FiPhone, FiMapPin, FiAlertCircle } from 'react-icons/fi';
-import ReCAPTCHA from 'react-google-recaptcha';
 import './Kontakt.css';
 
-// Replace with your real site key from https://www.google.com/recaptcha/admin
-// The key below is Google's public test key — always passes, use only in development.
-const RECAPTCHA_SITE_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
-
-const REQUIRED = ['namn', 'efternamn', 'epost', 'samtycke'];
+const REQUIRED = ['namn', 'epost', 'samtycke'];
 
 function validate(form) {
 	const e = {};
-	if (!form.namn.trim()) e.namn = 'Förnamn är obligatoriskt.';
-	if (!form.efternamn.trim()) e.efternamn = 'Efternamn är obligatoriskt.';
+	if (!form.namn.trim()) e.namn = 'Namn är obligatoriskt.';
 	if (!form.epost.trim()) {
 		e.epost = 'E-post är obligatoriskt.';
 	} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.epost)) {
@@ -28,12 +22,11 @@ function validate(form) {
 
 export default function Kontakt() {
 	const [sent, setSent] = useState(false);
-	const [captchaToken, setCaptchaToken] = useState(null);
-	const [captchaError, setCaptchaError] = useState(false);
-	const recaptchaRef = useRef(null);
+	const [sealing, setSealing] = useState(false);
+	const formWrapRef = useRef(null);
+
 	const [form, setForm] = useState({
 		namn: '',
-		efternamn: '',
 		epost: '',
 		telefon: '',
 		foretag: '',
@@ -64,10 +57,7 @@ export default function Kontakt() {
 	const onSubmit = (e) => {
 		e.preventDefault();
 		setSubmitAttempted(true);
-		if (!captchaToken) {
-			setCaptchaError(true);
-		}
-		if (Object.keys(errors).length > 0 || !captchaToken) {
+		if (Object.keys(errors).length > 0) {
 			const firstError = REQUIRED.find((f) => errors[f]);
 			if (firstError) {
 				const el = e.target.elements[firstError];
@@ -75,7 +65,8 @@ export default function Kontakt() {
 			}
 			return;
 		}
-		setSent(true);
+		// Trigger envelope-fold animation; show "sent" after it finishes
+		setSealing(true);
 	};
 
 	const ErrorMsg = ({ field }) =>
@@ -95,6 +86,20 @@ export default function Kontakt() {
 				</motion.span>
 			</AnimatePresence>
 		) : null;
+
+	// Total animation timeline (seconds):
+	// 0.0 - 0.7  : 4 triangle flaps fold in
+	// 0.8 - 1.2  : seal stamps in
+	// 1.6 - 2.3  : envelope flies off to the right
+	// 2.3        : reveal "Tack!" message
+	const FOLD = 0.7;
+	const STAMP_DELAY = 0.8;
+	const FLY_DELAY = 1.6;
+	const REVEAL_AT = 2300;
+
+	const handleAnimationStep = () => {
+		// fallback in case onAnimationComplete doesn't fire
+	};
 
 	return (
 		<section id="kontakt" className="sgn-kontakt sgn-section">
@@ -143,284 +148,391 @@ export default function Kontakt() {
 					</ul>
 				</motion.div>
 
-				<motion.form
-					className="sgn-kontakt__form"
-					onSubmit={onSubmit}
-					noValidate
-					initial={{ opacity: 0, y: 20 }}
-					whileInView={{ opacity: 1, y: 0 }}
-					viewport={{ once: true }}
-					transition={{ duration: 0.5, delay: 0.1 }}>
-					{sent ? (
-						<div className="sgn-kontakt__sent">
-							<h3>Tack!</h3>
-							<p>Vi hör av oss inom 24 timmar.</p>
-						</div>
-					) : (
-						<>
-							{/* Namn + Efternamn */}
-							<div className="sgn-kontakt__row">
-								<div className="sgn-kontakt__field">
-									<label htmlFor="f-namn">
-										<span>
-											Förnamn{' '}
-											<span className="sgn-req">*</span>
-										</span>
-									</label>
-									<input
-										id="f-namn"
-										name="namn"
-										value={form.namn}
-										onChange={onChange}
-										onBlur={onBlur}
-										aria-describedby={
-											showError('namn')
-												? 'err-namn'
-												: undefined
-										}
-										aria-invalid={!!showError('namn')}
-										className={
-											showError('namn') ? 'is-error' : ''
-										}
-									/>
-									<ErrorMsg field="namn" />
+				<div className="sgn-kontakt__form-wrap" ref={formWrapRef}>
+					<AnimatePresence mode="wait">
+						{sent ? (
+							<motion.div
+								key="thanks"
+								className="sgn-kontakt__form sgn-kontakt__thanks"
+								initial={{ opacity: 0, scale: 0.96 }}
+								animate={{ opacity: 1, scale: 1 }}
+								transition={{ duration: 0.4, ease: 'easeOut' }}>
+								<div className="sgn-kontakt__sent">
+									<h3>Tack!</h3>
+									<p>Vi hör av oss inom 24 timmar.</p>
 								</div>
-								<div className="sgn-kontakt__field">
-									<label htmlFor="f-efternamn">
-										<span>
-											Efternamn{' '}
-											<span className="sgn-req">*</span>
-										</span>
-									</label>
-									<input
-										id="f-efternamn"
-										name="efternamn"
-										value={form.efternamn}
-										onChange={onChange}
-										onBlur={onBlur}
-										aria-describedby={
-											showError('efternamn')
-												? 'err-efternamn'
-												: undefined
-										}
-										aria-invalid={!!showError('efternamn')}
-										className={
-											showError('efternamn')
-												? 'is-error'
-												: ''
-										}
-									/>
-									<ErrorMsg field="efternamn" />
-								</div>
-							</div>
-
-							{/* E-post + Telefon */}
-							<div className="sgn-kontakt__row">
-								<div className="sgn-kontakt__field">
-									<label htmlFor="f-epost">
-										<span>
-											E-post{' '}
-											<span className="sgn-req">*</span>
-										</span>
-									</label>
-									<input
-										id="f-epost"
-										name="epost"
-										type="email"
-										value={form.epost}
-										onChange={onChange}
-										onBlur={onBlur}
-										aria-describedby={
-											showError('epost')
-												? 'err-epost'
-												: undefined
-										}
-										aria-invalid={!!showError('epost')}
-										className={
-											showError('epost') ? 'is-error' : ''
-										}
-									/>
-									<ErrorMsg field="epost" />
-								</div>
-								<div className="sgn-kontakt__field">
-									<label htmlFor="f-telefon">
-										<span>Telefon</span>
-									</label>
-									<input
-										id="f-telefon"
-										name="telefon"
-										type="tel"
-										value={form.telefon}
-										onChange={onChange}
-										onBlur={onBlur}
-									/>
-								</div>
-							</div>
-
-							{/* Ev. företag */}
-							<div className="sgn-kontakt__field">
-								<label htmlFor="f-foretag">
-									<span>Ev. företag</span>
-								</label>
-								<input
-									id="f-foretag"
-									name="foretag"
-									value={form.foretag}
-									onChange={onChange}
-									onBlur={onBlur}
-								/>
-							</div>
-
-							{/* Är ni kunder idag? — visas alltid men krävs om företag är ifyllt */}
-							<fieldset
-								className={`sgn-kontakt__fieldset${showError('arkund') ? ' is-error' : ''}`}>
-								<legend>
-									Är ni kunder till SoGoNice idag?
-									{form.foretag.trim() && (
-										<span className="sgn-kontakt__required-mark">
-											{' '}
-											*
-										</span>
-									)}
-								</legend>
-								<div className="sgn-kontakt__radio-group">
-									<label className="sgn-kontakt__radio-label">
-										<input
-											type="radio"
-											name="arkund"
-											value="ja"
-											checked={form.arkund === 'ja'}
-											onChange={onChange}
-										/>
-										Ja
-									</label>
-									<label className="sgn-kontakt__radio-label">
-										<input
-											type="radio"
-											name="arkund"
-											value="nej"
-											checked={form.arkund === 'nej'}
-											onChange={onChange}
-										/>
-										Nej
-									</label>
-								</div>
-								<ErrorMsg field="arkund" />
-							</fieldset>
-
-							{/* Meddelande */}
-							<div className="sgn-kontakt__field">
-								<label htmlFor="f-meddelande">
-									<span>Meddelande</span>
-								</label>
-								<textarea
-									id="f-meddelande"
-									name="meddelande"
-									rows={6}
-									value={form.meddelande}
-									onChange={onChange}
-									onBlur={onBlur}
-									placeholder="Berätta gärna om hur många portioner ni serverar i veckan.."
-								/>
-							</div>
-
-							{/* Kontaktval */}
-							<fieldset className="sgn-kontakt__fieldset">
-								<legend>Jag vill bli kontaktad via…</legend>
-								<div className="sgn-kontakt__radio-group">
-									<label className="sgn-kontakt__radio-label">
-										<input
-											type="radio"
-											name="kontaktvia"
-											value="epost"
-											checked={
-												form.kontaktvia === 'epost'
+							</motion.div>
+						) : (
+							<motion.div
+								key="form"
+								className="sgn-kontakt__form-stage"
+								initial={{ opacity: 0, y: 20 }}
+								whileInView={
+									!sealing ? { opacity: 1, y: 0 } : undefined
+								}
+								viewport={{ once: true }}
+								animate={
+									sealing
+										? {
+												x: ['0%', '0%', '120%'],
+												rotate: [0, 0, 8],
+												opacity: [1, 1, 0],
 											}
-											onChange={onChange}
-										/>
-										E-post
-									</label>
-									<label className="sgn-kontakt__radio-label">
-										<input
-											type="radio"
-											name="kontaktvia"
-											value="telefon"
-											checked={
-												form.kontaktvia === 'telefon'
+										: undefined
+								}
+								transition={
+									sealing
+										? {
+												duration: 2.3,
+												times: [0, FLY_DELAY / 2.3, 1],
+												ease: 'easeIn',
 											}
+										: { duration: 0.5, delay: 0.1 }
+								}
+								onAnimationComplete={() => {
+									if (sealing) {
+										setTimeout(() => setSent(true), 0);
+									}
+								}}>
+								<form
+									className="sgn-kontakt__form"
+									onSubmit={onSubmit}
+									noValidate
+									aria-busy={sealing}>
+									{/* Namn */}
+									<div className="sgn-kontakt__field">
+										<label htmlFor="f-namn">
+											<span>
+												Namn{' '}
+												<span className="sgn-req">
+													*
+												</span>
+											</span>
+										</label>
+										<input
+											id="f-namn"
+											name="namn"
+											value={form.namn}
 											onChange={onChange}
+											onBlur={onBlur}
+											aria-describedby={
+												showError('namn')
+													? 'err-namn'
+													: undefined
+											}
+											aria-invalid={!!showError('namn')}
+											className={
+												showError('namn')
+													? 'is-error'
+													: ''
+											}
 										/>
-										Telefon
-									</label>
-								</div>
-							</fieldset>
+										<ErrorMsg field="namn" />
+									</div>
 
-							{/* Samtycke */}
-							<div className="sgn-kontakt__field">
-								<label className="sgn-kontakt__samtycke">
-									<input
-										type="checkbox"
-										name="samtycke"
-										checked={form.samtycke}
-										onChange={onChange}
-										onBlur={onBlur}
-										aria-invalid={!!showError('samtycke')}
-									/>
-									<span>
-										<strong>
-											Samtycke{' '}
-											<span className="sgn-req">*</span>
-										</strong>{' '}
-										— Genom att klicka på
-										&ldquo;Skicka&rdquo; så godkänner jag
-										att de uppgifter jag fyllt i sparas i
-										systemet.
-									</span>
-								</label>
-								<ErrorMsg field="samtycke" />
-							</div>
+									{/* E-post + Telefon */}
+									<div className="sgn-kontakt__row">
+										<div className="sgn-kontakt__field">
+											<label htmlFor="f-epost">
+												<span>
+													E-post{' '}
+													<span className="sgn-req">
+														*
+													</span>
+												</span>
+											</label>
+											<input
+												id="f-epost"
+												name="epost"
+												type="email"
+												value={form.epost}
+												onChange={onChange}
+												onBlur={onBlur}
+												aria-describedby={
+													showError('epost')
+														? 'err-epost'
+														: undefined
+												}
+												aria-invalid={
+													!!showError('epost')
+												}
+												className={
+													showError('epost')
+														? 'is-error'
+														: ''
+												}
+											/>
+											<ErrorMsg field="epost" />
+										</div>
+										<div className="sgn-kontakt__field">
+											<label htmlFor="f-telefon">
+												<span>Telefon</span>
+											</label>
+											<input
+												id="f-telefon"
+												name="telefon"
+												type="tel"
+												value={form.telefon}
+												onChange={onChange}
+												onBlur={onBlur}
+											/>
+										</div>
+									</div>
 
-							{/* CAPTCHA */}
-							<div className="sgn-kontakt__captcha">
-								<ReCAPTCHA
-									ref={recaptchaRef}
-									sitekey={RECAPTCHA_SITE_KEY}
-									onChange={(token) => {
-										setCaptchaToken(token);
-										if (token) setCaptchaError(false);
-									}}
-									onExpired={() => setCaptchaToken(null)}
-								/>
-								{captchaError && (
+									{/* Ev. företag */}
+									<div className="sgn-kontakt__field">
+										<label htmlFor="f-foretag">
+											<span>Ev. företag</span>
+										</label>
+										<input
+											id="f-foretag"
+											name="foretag"
+											value={form.foretag}
+											onChange={onChange}
+											onBlur={onBlur}
+										/>
+									</div>
+
+									{/* Är ni kunder idag? */}
+									<fieldset
+										className={`sgn-kontakt__fieldset${showError('arkund') ? ' is-error' : ''}`}>
+										<legend>
+											Är ni kunder till SoGoNice idag?
+											{form.foretag.trim() && (
+												<span className="sgn-kontakt__required-mark">
+													{' '}
+													*
+												</span>
+											)}
+										</legend>
+										<div className="sgn-kontakt__radio-group">
+											<label className="sgn-kontakt__radio-label">
+												<input
+													type="radio"
+													name="arkund"
+													value="ja"
+													checked={
+														form.arkund === 'ja'
+													}
+													onChange={onChange}
+												/>
+												Ja
+											</label>
+											<label className="sgn-kontakt__radio-label">
+												<input
+													type="radio"
+													name="arkund"
+													value="nej"
+													checked={
+														form.arkund === 'nej'
+													}
+													onChange={onChange}
+												/>
+												Nej
+											</label>
+										</div>
+										<ErrorMsg field="arkund" />
+									</fieldset>
+
+									{/* Meddelande */}
+									<div className="sgn-kontakt__field">
+										<label htmlFor="f-meddelande">
+											<span>Meddelande</span>
+										</label>
+										<textarea
+											id="f-meddelande"
+											name="meddelande"
+											rows={6}
+											value={form.meddelande}
+											onChange={onChange}
+											onBlur={onBlur}
+											placeholder="Berätta gärna om hur många portioner ni serverar i veckan.."
+										/>
+									</div>
+
+									{/* Kontaktval */}
+									<fieldset className="sgn-kontakt__fieldset">
+										<legend>
+											Jag vill bli kontaktad via…
+										</legend>
+										<div className="sgn-kontakt__radio-group">
+											<label className="sgn-kontakt__radio-label">
+												<input
+													type="radio"
+													name="kontaktvia"
+													value="epost"
+													checked={
+														form.kontaktvia ===
+														'epost'
+													}
+													onChange={onChange}
+												/>
+												E-post
+											</label>
+											<label className="sgn-kontakt__radio-label">
+												<input
+													type="radio"
+													name="kontaktvia"
+													value="telefon"
+													checked={
+														form.kontaktvia ===
+														'telefon'
+													}
+													onChange={onChange}
+												/>
+												Telefon
+											</label>
+										</div>
+									</fieldset>
+
+									{/* Samtycke */}
+									<div className="sgn-kontakt__field">
+										<label className="sgn-kontakt__samtycke">
+											<input
+												type="checkbox"
+												name="samtycke"
+												checked={form.samtycke}
+												onChange={onChange}
+												onBlur={onBlur}
+												aria-invalid={
+													!!showError('samtycke')
+												}
+											/>
+											<span>
+												<strong>
+													Samtycke{' '}
+													<span className="sgn-req">
+														*
+													</span>
+												</strong>{' '}
+												— Genom att klicka på
+												&ldquo;Skicka&rdquo; så
+												godkänner jag att de uppgifter
+												jag fyllt i sparas i systemet.
+											</span>
+										</label>
+										<ErrorMsg field="samtycke" />
+									</div>
+									<button
+										type="submit"
+										className="sgn-btn sgn-btn--primary"
+										disabled={sealing}>
+										Skicka
+									</button>
+									<p className="sgn-kontakt__fine">
+										Vi svarar oftast samma dag. Inga
+										spam-mejl, bara svar på din förfrågan.
+									</p>
+
+									{/* Envelope-fold overlay */}
 									<AnimatePresence>
-										<motion.span
-											className="sgn-kontakt__error"
-											initial={{ opacity: 0, y: -4 }}
-											animate={{ opacity: 1, y: 0 }}
-											exit={{ opacity: 0, y: -4 }}
-											transition={{ duration: 0.18 }}
-											role="alert"
-											aria-live="polite">
-											<FiAlertCircle aria-hidden="true" />
-											Vänligen bekräfta att du inte är en
-											robot.
-										</motion.span>
+										{sealing && (
+											<motion.div
+												className="sgn-envelope"
+												initial={{ opacity: 1 }}
+												animate={{ opacity: 1 }}
+												exit={{ opacity: 0 }}
+												aria-hidden="true">
+												<motion.span
+													className="sgn-envelope__flap sgn-envelope__flap--top"
+													initial={{
+														transform:
+															'rotateX(-180deg)',
+													}}
+													animate={{
+														transform:
+															'rotateX(0deg)',
+													}}
+													transition={{
+														duration: FOLD,
+														ease: [
+															0.6, 0.05, 0.2, 1,
+														],
+													}}
+												/>
+												<motion.span
+													className="sgn-envelope__flap sgn-envelope__flap--bottom"
+													initial={{
+														transform:
+															'rotateX(180deg)',
+													}}
+													animate={{
+														transform:
+															'rotateX(0deg)',
+													}}
+													transition={{
+														duration: FOLD,
+														ease: [
+															0.6, 0.05, 0.2, 1,
+														],
+													}}
+												/>
+												<motion.span
+													className="sgn-envelope__flap sgn-envelope__flap--left"
+													initial={{
+														transform:
+															'rotateY(180deg)',
+													}}
+													animate={{
+														transform:
+															'rotateY(0deg)',
+													}}
+													transition={{
+														duration: FOLD,
+														ease: [
+															0.6, 0.05, 0.2, 1,
+														],
+														delay: 0.05,
+													}}
+												/>
+												<motion.span
+													className="sgn-envelope__flap sgn-envelope__flap--right"
+													initial={{
+														transform:
+															'rotateY(-180deg)',
+													}}
+													animate={{
+														transform:
+															'rotateY(0deg)',
+													}}
+													transition={{
+														duration: FOLD,
+														ease: [
+															0.6, 0.05, 0.2, 1,
+														],
+														delay: 0.05,
+													}}
+												/>
+												<motion.div
+													className="sgn-envelope__seal"
+													initial={{
+														scale: 4,
+														opacity: 0,
+														rotate: -25,
+													}}
+													animate={{
+														scale: 1,
+														opacity: 1,
+														rotate: -12,
+													}}
+													transition={{
+														delay: STAMP_DELAY,
+														duration: 0.35,
+														ease: [
+															0.2, 1.4, 0.4, 1,
+														],
+													}}>
+													<span>SoGoNice</span>
+													<small>SEALED</small>
+												</motion.div>
+											</motion.div>
+										)}
 									</AnimatePresence>
-								)}
-							</div>
-
-							<button
-								type="submit"
-								className="sgn-btn sgn-btn--primary">
-								Skicka
-							</button>
-							<p className="sgn-kontakt__fine">
-								Vi svarar oftast samma dag. Inga spam-mejl, bara
-								svar på din förfrågan.
-							</p>
-						</>
-					)}
-				</motion.form>
+								</form>
+							</motion.div>
+						)}
+					</AnimatePresence>
+				</div>
 			</div>
 		</section>
 	);
