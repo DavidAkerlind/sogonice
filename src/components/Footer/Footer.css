@@ -1,5 +1,5 @@
 .sgn-footer {
-	background: #1a2e40;
+	background: #2c4a66;
 	color: rgba(255, 255, 255, 0.78);
 	padding: 72px 0 24px;
 	font-size: 14px;
@@ -59,7 +59,7 @@
 }
 .sgn-footer__social a:hover {
 	background: var(--sgn-accent-warm);
-	color: #1a2e40;
+	color: #2c4a66;
 	border-color: transparent;
 }
 .sgn-footer__bottom {

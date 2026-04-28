@@ -15,21 +15,22 @@ body {
 }
 
 :root {
-	/* Brand palette — Smoothie & Bowl Co. */
-	--sgn-bg: #f5f0e8; /* Oat Cream */
-	--sgn-bg-alt: #e8f3fb; /* Coconut Foam */
-	--sgn-surface: #ffffff; /* Pure */
+	/* Brand palette — Blue family */
+	--sgn-bg: #acc5e4; /* Sky Milk — PRIMARY background */
+	--sgn-bg-alt: #d0e4f5; /* Glacier — alternate sections */
+	--sgn-surface: #e8f3fb; /* Coconut Foam — cards & panels */
+	--sgn-surface-inner: #f0f7fd; /* Ice Mist — inner fills, inputs */
 	--sgn-ink: #2c4a66; /* Deep Lagoon */
 	--sgn-ink-soft: #5a7a95; /* Sea Slate */
-	--sgn-muted: #8fa8be; /* Soft Sea Slate */
-	--sgn-line: #ccdaec; /* Sky Milk border */
+	--sgn-muted: #5a7a95; /* Sea Slate */
+	--sgn-line: #b8d2ea; /* Sky Milk border */
 
 	--sgn-primary: #2c4a66; /* Deep Lagoon */
 	--sgn-primary-hover: #1e3347;
-	--sgn-primary-soft: #deeaf7; /* Very light Sky Milk */
+	--sgn-primary-soft: #d0e4f5; /* Glacier */
 
-	--sgn-accent: #f2a8b8; /* Pitaya Bloom */
-	--sgn-accent-warm: #f7d6a0; /* Mango Sorbet */
+	--sgn-accent: #c9567a; /* Pitaya Bloom — deep berry rose */
+	--sgn-accent-warm: #f7d6a0; /* Mango Sorbet — tropical tag */
 
 	--sgn-whatsapp: #25d366;
 
@@ -124,7 +125,7 @@ p {
 	font-size: 13px;
 	letter-spacing: 0.18em;
 	text-transform: uppercase;
-	color: var(--sgn-accent);
+	color: var(--sgn-primary);
 	font-weight: 600;
 	margin-bottom: 16px;
 }
@@ -173,6 +174,6 @@ p {
 	color: #fff;
 }
 .sgn-btn--accent:hover {
-	background: #5e1730;
+	background: #b0486a;
 	transform: translateY(-1px);
 }

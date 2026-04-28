@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
@@ -77,6 +77,22 @@ const filters = [
 export default function Kundportratt() {
 	const [filter, setFilter] = useState('alla');
 	const [lightbox, setLightbox] = useState({ open: false, idx: 0 });
+
+	useEffect(() => {
+		const prev = document.title;
+		document.title = 'Våra Kunder — SoGoNice';
+		const metaDesc = document.querySelector('meta[name="description"]');
+		const prevDesc = metaDesc?.getAttribute('content');
+		metaDesc?.setAttribute(
+			'content',
+			'Möt över 200 caféer och restauranger i Sverige som serverar SoGoNice varje dag. Läs deras berättelser.',
+		);
+		return () => {
+			document.title = prev;
+			if (metaDesc && prevDesc)
+				metaDesc.setAttribute('content', prevDesc);
+		};
+	}, []);
 
 	const visa = kunder.filter((k) => filter === 'alla' || k.typ === filter);
 	const slides = visa.map((k) => ({ src: k.img, alt: k.name }));

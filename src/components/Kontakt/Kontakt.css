@@ -47,7 +47,7 @@
 }
 
 .sgn-kontakt__form {
-	background: var(--sgn-bg);
+	background: #f0f7fd;
 	color: var(--sgn-ink);
 	padding: 40px;
 	border-radius: var(--sgn-radius-lg);
@@ -74,7 +74,7 @@
 }
 .sgn-kontakt__form input,
 .sgn-kontakt__form textarea {
-	background: #fff;
+	background: #f0f7fd;
 	border: 1.5px solid var(--sgn-line);
 	border-radius: var(--sgn-radius-sm);
 	padding: 13px 14px;

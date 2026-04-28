@@ -89,29 +89,12 @@ export default function Smaker() {
 					<h2 className="sgn-smaker__title">
 						13 smaker i tre färger.
 						<br />
-						<em>En enda enkel rutin.</em>
 					</h2>
 				</div>
 				<p className="sgn-smaker__lead">
 					Varje påse är en färdig portion — välj smak, förvara fryst,
 					mixa & servera. Allt utan svinn.
 				</p>
-				<div className="sgn-smaker__nav">
-					<button
-						ref={prevRef}
-						aria-label="Föregående smak"
-						className="sgn-smaker__arrow"
-						type="button">
-						<HiArrowLeft />
-					</button>
-					<button
-						ref={nextRef}
-						aria-label="Nästa smak"
-						className="sgn-smaker__arrow"
-						type="button">
-						<HiArrowRight />
-					</button>
-				</div>
 			</div>
 
 			<div className="sgn-container sgn-smaker__tabs">
@@ -136,59 +119,75 @@ export default function Smaker() {
 				))}
 			</div>
 
-			<div className="sgn-smaker__slider">
-				<Swiper
-					key={aktiv}
-					modules={[Navigation, Pagination, A11y]}
-					slidesPerView={1.2}
-					spaceBetween={20}
-					breakpoints={{
-						640: { slidesPerView: 2.2, spaceBetween: 24 },
-						900: { slidesPerView: 3.2, spaceBetween: 28 },
-						1200: { slidesPerView: 4, spaceBetween: 32 },
-					}}
-					pagination={{ clickable: true }}
-					onBeforeInit={(swiper) => {
-						swiper.params.navigation.prevEl = prevRef.current;
-						swiper.params.navigation.nextEl = nextRef.current;
-					}}
-					navigation={{
-						prevEl: prevRef.current,
-						nextEl: nextRef.current,
-					}}>
-					{aktivKategori.smaker.map((s) => (
-						<SwiperSlide key={s.nr}>
-							<article className="sgn-smaker__card">
-								<div className="sgn-smaker__img">
-									<img
-										src={s.img}
-										alt={s.namn}
-										loading="lazy"
-										width={400}
-										height={400}
-									/>
-									<span
-										className="sgn-smaker__badge"
-										style={{
-											background: aktivKategori.farg,
-										}}>
-										{aktivKategori.namn} {s.nr}
-									</span>
-								</div>
-								<div className="sgn-smaker__body">
-									<span
-										className="sgn-smaker__dot"
-										style={{
-											background: aktivKategori.farg,
-										}}
-										aria-hidden
-									/>
-									<h3>{s.namn}</h3>
-								</div>
-							</article>
-						</SwiperSlide>
-					))}
-				</Swiper>
+			<div className="sgn-smaker__slider-outer">
+				<button
+					ref={prevRef}
+					aria-label="Föregående smak"
+					className="sgn-smaker__arrow sgn-smaker__arrow--prev"
+					type="button">
+					<HiArrowLeft />
+				</button>
+				<div className="sgn-smaker__slider">
+					<Swiper
+						key={aktiv}
+						modules={[Navigation, Pagination, A11y]}
+						slidesPerView={1.2}
+						spaceBetween={20}
+						breakpoints={{
+							640: { slidesPerView: 2.2, spaceBetween: 24 },
+							900: { slidesPerView: 3.2, spaceBetween: 28 },
+							1200: { slidesPerView: 4, spaceBetween: 32 },
+						}}
+						pagination={{ clickable: true }}
+						onBeforeInit={(swiper) => {
+							swiper.params.navigation.prevEl = prevRef.current;
+							swiper.params.navigation.nextEl = nextRef.current;
+						}}
+						navigation={{
+							prevEl: prevRef.current,
+							nextEl: nextRef.current,
+						}}>
+						{aktivKategori.smaker.map((s) => (
+							<SwiperSlide key={s.nr}>
+								<article className="sgn-smaker__card">
+									<div className="sgn-smaker__img">
+										<img
+											src={s.img}
+											alt={s.namn}
+											loading="lazy"
+											width={400}
+											height={400}
+										/>
+										<span
+											className="sgn-smaker__badge"
+											style={{
+												background: aktivKategori.farg,
+											}}>
+											{aktivKategori.namn} {s.nr}
+										</span>
+									</div>
+									<div className="sgn-smaker__body">
+										<span
+											className="sgn-smaker__dot"
+											style={{
+												background: aktivKategori.farg,
+											}}
+											aria-hidden
+										/>
+										<h3>{s.namn}</h3>
+									</div>
+								</article>
+							</SwiperSlide>
+						))}
+					</Swiper>
+				</div>
+				<button
+					ref={nextRef}
+					aria-label="Nästa smak"
+					className="sgn-smaker__arrow sgn-smaker__arrow--next"
+					type="button">
+					<HiArrowRight />
+				</button>
 			</div>
 		</section>
 	);

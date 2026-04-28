@@ -4,10 +4,10 @@ import logo from '../../assets/logo/sogonice-logo.png';
 import './Navbar.css';
 
 const links = [
-	{ href: '#hem', label: 'Hem' },
-	{ href: '#smaker', label: 'Smaker' },
-	{ href: '/kundportratt', label: 'Våra Kunder', external: true },
-	{ href: '#kontakt', label: 'Kontakt' },
+	{ href: '/#hem', label: 'Hem' },
+	{ href: '/#smaker', label: 'Smaker' },
+	{ href: '/kundportratt', label: 'Våra Kunder' },
+	{ href: '/#kontakt', label: 'Kontakt' },
 ];
 
 export default function Navbar() {
@@ -58,7 +58,7 @@ export default function Navbar() {
 					</nav>
 
 					<a
-						href="#kontakt"
+						href="/#kontakt"
 						className="sgn-btn sgn-btn--primary sgn-nav__cta">
 						Kontakta oss
 					</a>
@@ -97,7 +97,7 @@ export default function Navbar() {
 					))}
 				</nav>
 				<a
-					href="#kontakt"
+					href="/#kontakt"
 					className="sgn-btn sgn-btn--primary sgn-mobile__cta"
 					onClick={() => setOpen(false)}>
 					Kontakta oss
