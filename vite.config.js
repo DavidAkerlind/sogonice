@@ -4,14 +4,25 @@ import react from '@vitejs/plugin-react';
 // https://vite.dev/config/
 export default defineConfig({
 	plugins: [react()],
+	base: '/sogonice/',
 	build: {
 		rollupOptions: {
 			output: {
-				manualChunks: {
-					'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-					'vendor-motion': ['framer-motion'],
-					'vendor-swiper': ['swiper'],
-					'vendor-lightbox': ['yet-another-react-lightbox'],
+				manualChunks(id) {
+					if (id.includes('node_modules')) {
+						if (
+							id.includes('react') ||
+							id.includes('react-dom') ||
+							id.includes('react-router-dom')
+						) {
+							return 'vendor-react';
+						}
+						if (id.includes('framer-motion'))
+							return 'vendor-motion';
+						if (id.includes('swiper')) return 'vendor-swiper';
+						if (id.includes('yet-another-react-lightbox'))
+							return 'vendor-lightbox';
+					}
 				},
 			},
 		},
