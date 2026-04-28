@@ -53,7 +53,7 @@ export default function Hero() {
 							alt="Smoothie bowl med färska bär, mango och granola"
 							width={1024}
 							height={1024}
-						fetchPriority="high"
+							fetchPriority="high"
 							loading="eager"
 							decoding="async"
 						/>
