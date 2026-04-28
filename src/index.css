@@ -15,21 +15,21 @@ body {
 }
 
 :root {
-	/* Brand palette — Ljus & naturlig premium */
-	--sgn-bg: #faf6ef;
-	--sgn-bg-alt: #f3ede1;
-	--sgn-surface: #ffffff;
-	--sgn-ink: #1a2a1f;
-	--sgn-ink-soft: #4a5a50;
-	--sgn-muted: #8a8576;
-	--sgn-line: #e7dfd0;
+	/* Brand palette — Smoothie & Bowl Co. */
+	--sgn-bg: #f5f0e8; /* Oat Cream */
+	--sgn-bg-alt: #e8f3fb; /* Coconut Foam */
+	--sgn-surface: #ffffff; /* Pure */
+	--sgn-ink: #2c4a66; /* Deep Lagoon */
+	--sgn-ink-soft: #5a7a95; /* Sea Slate */
+	--sgn-muted: #8fa8be; /* Soft Sea Slate */
+	--sgn-line: #ccdaec; /* Sky Milk border */
 
-	--sgn-primary: #1f3d2b; /* djupgrön */
-	--sgn-primary-hover: #163020;
-	--sgn-primary-soft: #e6ede8;
+	--sgn-primary: #2c4a66; /* Deep Lagoon */
+	--sgn-primary-hover: #1e3347;
+	--sgn-primary-soft: #deeaf7; /* Very light Sky Milk */
 
-	--sgn-accent: #7a1f3d; /* bär-bordeaux */
-	--sgn-accent-warm: #e89b3c; /* mango */
+	--sgn-accent: #f2a8b8; /* Pitaya Bloom */
+	--sgn-accent-warm: #f7d6a0; /* Mango Sorbet */
 
 	--sgn-whatsapp: #25d366;
 
@@ -43,9 +43,9 @@ body {
 	--sgn-radius-lg: 28px;
 	--sgn-radius-pill: 999px;
 
-	--sgn-shadow-sm: 0 2px 6px rgba(31, 61, 43, 0.06);
-	--sgn-shadow: 0 10px 30px -12px rgba(31, 61, 43, 0.18);
-	--sgn-shadow-lg: 0 30px 60px -20px rgba(31, 61, 43, 0.28);
+	--sgn-shadow-sm: 0 2px 6px rgba(44, 74, 102, 0.08);
+	--sgn-shadow: 0 10px 30px -12px rgba(44, 74, 102, 0.18);
+	--sgn-shadow-lg: 0 30px 60px -20px rgba(44, 74, 102, 0.28);
 
 	/* Layout */
 	--sgn-container: 1200px;

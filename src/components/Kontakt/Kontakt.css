@@ -89,7 +89,7 @@
 .sgn-kontakt__form textarea:focus {
 	outline: none;
 	border-color: var(--sgn-primary);
-	box-shadow: 0 0 0 4px rgba(31, 61, 43, 0.1);
+	box-shadow: 0 0 0 4px rgba(44, 74, 102, 0.1);
 }
 .sgn-kontakt__form button {
 	margin-top: 6px;

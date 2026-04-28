@@ -7,7 +7,7 @@
 	height: var(--sgn-nav-h);
 	display: flex;
 	align-items: center;
-	background: rgba(250, 246, 239, 0.7);
+	background: rgba(245, 240, 232, 0.7);
 	backdrop-filter: saturate(150%) blur(14px);
 	-webkit-backdrop-filter: saturate(150%) blur(14px);
 	border-bottom: 1px solid transparent;
@@ -19,9 +19,9 @@
 }
 .sgn-nav.is-scrolled {
 	height: 64px;
-	background: rgba(250, 246, 239, 0.92);
+	background: rgba(245, 240, 232, 0.92);
 	border-bottom-color: var(--sgn-line);
-	box-shadow: 0 6px 20px -16px rgba(31, 61, 43, 0.25);
+	box-shadow: 0 6px 20px -16px rgba(44, 74, 102, 0.25);
 }
 
 .sgn-nav__inner {
@@ -152,7 +152,7 @@
 .sgn-mobile__backdrop {
 	position: fixed;
 	inset: 0;
-	background: rgba(26, 42, 31, 0.4);
+	background: rgba(44, 74, 102, 0.4);
 	z-index: 55;
 	border: none;
 }
