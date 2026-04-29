@@ -1,16 +1,16 @@
 import { motion } from 'framer-motion';
 import { HiArrowRight } from 'react-icons/hi';
-import cafe1 from '../../assets/kund-cafe-1.jpg';
-import cafe2 from '../../assets/kund-cafe-2.jpg';
-import rest1 from '../../assets/kund-restaurang-1.jpg';
-import rest2 from '../../assets/kund-restaurang-2.jpg';
+import img1 from '../../assets/official_pictures/013_SoGoNice-@-The-Retreat-Club-39.png';
+import img2 from '../../assets/official_pictures/SoGoNice-@-The-Retreat-Club-208-604x403.jpg';
+import img3 from '../../assets/official_pictures/022_SoGoNice-@-The-Retreat-Club-129.png';
+import img4 from '../../assets/official_pictures/011_So-Go-Nice-Vadstena-336.png';
 import './KundStrip.css';
 
 const kunder = [
-	{ img: cafe1, name: 'Café Nord', ort: 'Stockholm' },
-	{ img: cafe2, name: 'Bistro Lykke', ort: 'Göteborg' },
-	{ img: rest1, name: 'Vinbaren', ort: 'Malmö' },
-	{ img: rest2, name: 'Restaurang Ek', ort: 'Uppsala' },
+	{ img: img1, name: 'The Retreat Club', ort: 'Stockholm' },
+	{ img: img2, name: 'Café Bloom', ort: 'Göteborg' },
+	{ img: img3, name: 'Spa & Bistro', ort: 'Malmö' },
+	{ img: img4, name: 'Restaurang Vadstena', ort: 'Vadstena' },
 ];
 
 export default function KundStrip() {
