@@ -20,58 +20,34 @@ import './Kundportratt.css';
 const kunder = [
 	{
 		img: cafe1,
-		name: 'Café Nord',
+		name: 'Sture badet',
 		ort: 'Stockholm',
-		typ: 'cafe',
+		typ: 'spa',
 		citat: 'Våra gäster älskar de fräscha smakerna varje morgon.',
 		produkter: ['Smoothie', 'Smoothie Bowl'],
 	},
 	{
 		img: cafe2,
-		name: 'Bistro Lykke',
-		ort: 'Göteborg',
+		name: 'AMAÍ AÇAÍ',
+		ort: 'Stockholm',
 		typ: 'cafe',
 		citat: 'Sparar oss massor av tid utan att tumma på kvaliteten.',
 		produkter: ['FruitShake®', 'Smoothie'],
 	},
 	{
 		img: rest1,
-		name: 'Vinbaren',
-		ort: 'Malmö',
-		typ: 'restaurang',
+		name: 'Vana Spa',
+		ort: 'Stockholm',
+		typ: 'spa',
 		citat: 'Mocktails som faktiskt smakar något — gästerna kommer tillbaka.',
 		produkter: ['Mocktail'],
-	},
-	{
-		img: rest2,
-		name: 'Restaurang Ek',
-		ort: 'Uppsala',
-		typ: 'restaurang',
-		citat: 'Premium-känsla på varje servering, året runt.',
-		produkter: ['Smoothie Bowl', 'Mocktail'],
-	},
-	{
-		img: cafe3,
-		name: 'Slow Brew',
-		ort: 'Linköping',
-		typ: 'cafe',
-		citat: 'Bästa investeringen vi gjort i menyn på flera år.',
-		produkter: ['Smoothie', 'FruitShake®'],
-	},
-	{
-		img: rest3,
-		name: 'Hagaparken Café',
-		ort: 'Stockholm',
-		typ: 'restaurang',
-		citat: 'Kunderna frågar alltid var bären kommer ifrån.',
-		produkter: ['Smoothie Bowl'],
 	},
 ];
 
 const filters = [
 	{ id: 'alla', label: 'Alla' },
 	{ id: 'cafe', label: 'Caféer' },
-	{ id: 'restaurang', label: 'Restauranger' },
+	{ id: 'spa', label: 'Spa' },
 ];
 
 export default function Kundportratt() {

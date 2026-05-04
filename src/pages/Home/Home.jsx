@@ -9,6 +9,7 @@ import InspirationBanner from '../../components/InspirationBanner/InspirationBan
 import Kontakt from '../../components/Kontakt/Kontakt';
 import Footer from '../../components/Footer/Footer';
 import FloatingCta from '../../components/FloatingCta/FloatingCta';
+import FAQ from '../../components/FAQ/FAQ';
 import '../../index.css';
 import './Home.css';
 
@@ -24,6 +25,7 @@ export default function Home() {
 				<Produkter />
 				<KundStrip />
 				<InspirationBanner />
+				<FAQ />
 				<Kontakt />
 			</main>
 			<Footer />

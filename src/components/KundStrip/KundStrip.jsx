@@ -7,10 +7,9 @@ import img4 from '../../assets/official_pictures/011_So-Go-Nice-Vadstena-336.png
 import './KundStrip.css';
 
 const kunder = [
-	{ img: img1, name: 'The Retreat Club', ort: 'Stockholm' },
-	{ img: img2, name: 'Café Bloom', ort: 'Göteborg' },
-	{ img: img3, name: 'Spa & Bistro', ort: 'Malmö' },
-	{ img: img4, name: 'Restaurang Vadstena', ort: 'Vadstena' },
+	{ img: img1, name: 'Sturebadet', ort: 'Stockholm' },
+	{ img: img2, name: 'AMAÍ AÇAÍ', ort: 'Stockholm' },
+	{ img: img3, name: 'Vana Spa', ort: 'Stockholm' },
 ];
 
 export default function KundStrip() {
