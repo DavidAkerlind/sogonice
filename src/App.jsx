@@ -6,8 +6,7 @@ const Kundportratt = lazy(() => import('./pages/Kundportratt/Kundportratt'));
 
 function App() {
 	return (
-		// <BrowserRouter basename="/sogonice/">
-		<BrowserRouter basename="/">
+		<BrowserRouter basename="/sogonice/">
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route
