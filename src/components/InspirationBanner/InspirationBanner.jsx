@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+﻿import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { HiArrowRight } from 'react-icons/hi';
 import bannerImg from '../../assets/official_pictures/008_SoGoNice-@-The-Retreat-Club-258.png';
 import './InspirationBanner.css';
@@ -24,11 +25,11 @@ export default function InspirationBanner() {
 						<br />
 						gästupplevelsen."
 					</p>
-					<a
-						href="/#kontakt"
+					<Link
+						to="/#kontakt"
 						className="sgn-btn sgn-btn--primary sgn-banner__cta">
 						Kom igång idag <HiArrowRight />
-					</a>
+					</Link>
 				</motion.blockquote>
 			</div>
 		</section>

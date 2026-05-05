@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
 import Hero from '../../components/Hero/Hero';
 import LogoMarquee from '../../components/LogoMarquee/LogoMarquee';
@@ -14,6 +16,18 @@ import '../../index.css';
 import './Home.css';
 
 export default function Home() {
+	const location = useLocation();
+
+	useEffect(() => {
+		if (location.hash) {
+			const id = location.hash.replace('#', '');
+			const el = document.getElementById(id);
+			if (el) {
+				el.scrollIntoView({ behavior: 'smooth' });
+			}
+		}
+	}, [location]);
+
 	return (
 		<div className="sgn-page">
 			<Navbar />

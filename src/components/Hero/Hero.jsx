@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { HiArrowRight } from 'react-icons/hi';
 import heroImg from '../../assets/hero-fruit.jpg';
 import './Hero.css';
@@ -26,14 +27,14 @@ export default function Hero() {
 						smaker — noll krångel.
 					</p>
 					<div className="sgn-hero__cta">
-						<a
-							href="/#kontakt"
+						<Link
+							to="/#kontakt"
 							className="sgn-btn sgn-btn--primary">
 							Kontakta oss <HiArrowRight />
-						</a>
-						<a href="/#smaker" className="sgn-btn sgn-btn--ghost">
+						</Link>
+						<Link to="/#smaker" className="sgn-btn sgn-btn--ghost">
 							Se våra smaker
-						</a>
+						</Link>
 					</div>
 					<ul className="sgn-hero__bullets">
 						<li>✓ Snabb leverans i hela Sverige</li>

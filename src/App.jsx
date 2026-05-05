@@ -1,32 +1,39 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home/Home';
+import { HashRouter, Routes, Route } from 'react-router-dom';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 
+const Home = lazy(() => import('./pages/Home/Home'));
 const Kundportratt = lazy(() => import('./pages/Kundportratt/Kundportratt'));
+
+const PageFallback = (
+	<div style={{ minHeight: '100vh', background: '#acc5e4' }} />
+);
 
 function App() {
 	return (
-		<BrowserRouter basename="/sogonice/">
-			<Routes>
-				<Route path="/" element={<Home />} />
-				<Route
-					path="/kundportratt"
-					element={
-						<Suspense
-							fallback={
-								<div
-									style={{
-										minHeight: '100vh',
-										background: '#acc5e4',
-									}}
-								/>
-							}>
-							<Kundportratt />
-						</Suspense>
-					}
-				/>
-			</Routes>
-		</BrowserRouter>
+		<div className="app">
+			<HashRouter>
+				<ScrollToTop />
+				<Routes>
+					<Route
+						path="/"
+						element={
+							<Suspense fallback={PageFallback}>
+								<Home />
+							</Suspense>
+						}
+					/>
+					<Route
+						path="/kundportratt"
+						element={
+							<Suspense fallback={PageFallback}>
+								<Kundportratt />
+							</Suspense>
+						}
+					/>
+				</Routes>
+			</HashRouter>
+		</div>
 	);
 }
 

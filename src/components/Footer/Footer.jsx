@@ -4,6 +4,7 @@ import {
 	FaLinkedin,
 	FaWhatsapp,
 } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import './Footer.css';
 
 export default function Footer() {
@@ -20,10 +21,10 @@ export default function Footer() {
 				<div className="sgn-footer__cols">
 					<div>
 						<h4>Sidor</h4>
-						<a href="/">Hem</a>
-						<a href="#smaker">Smaker</a>
-						<a href="/kundportratt">Våra Kunder</a>
-						<a href="#kontakt">Kontakt</a>
+						<Link to="/">Hem</Link>
+						<Link to="/#smaker">Smaker</Link>
+						<Link to="/kundportratt">Våra Kunder</Link>
+						<Link to="/#kontakt">Kontakt</Link>
 					</div>
 					<div>
 						<h4>Kontakt</h4>

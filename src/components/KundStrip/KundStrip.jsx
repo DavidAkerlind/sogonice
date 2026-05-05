@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { HiArrowRight } from 'react-icons/hi';
 import img1 from '../../assets/official_pictures/013_SoGoNice-@-The-Retreat-Club-39.png';
 import img2 from '../../assets/official_pictures/SoGoNice-@-The-Retreat-Club-208-604x403.jpg';
@@ -21,30 +22,33 @@ export default function KundStrip() {
 						<span className="sgn-eyebrow">Våra Kunder</span>
 						<h2>Caféer som redan älskar SoGoNice.</h2>
 					</div>
-					<a href="/kundportratt" className="sgn-btn sgn-btn--ghost">
+					<Link to="/kundportratt" className="sgn-btn sgn-btn--ghost">
 						Se alla våra kunder <HiArrowRight />
-					</a>
+					</Link>
 				</div>
 				<div className="sgn-strip__grid">
 					{kunder.map((k, i) => (
-						<motion.a
+						<motion.div
 							key={k.name}
-							href="/kundportratt"
 							className="sgn-strip__card"
 							initial={{ opacity: 0, y: 20 }}
 							whileInView={{ opacity: 1, y: 0 }}
 							viewport={{ once: true, amount: 0.3 }}
 							transition={{ duration: 0.5, delay: i * 0.08 }}>
-							<img
-								src={k.img}
-								alt={`${k.name} i ${k.ort}`}
-								loading="lazy"
-							/>
-							<div className="sgn-strip__overlay">
-								<strong>{k.name}</strong>
-								<span>{k.ort}</span>
-							</div>
-						</motion.a>
+							<Link
+								to="/kundportratt"
+								className="sgn-strip__card-link">
+								<img
+									src={k.img}
+									alt={`${k.name} i ${k.ort}`}
+									loading="lazy"
+								/>
+								<div className="sgn-strip__overlay">
+									<strong>{k.name}</strong>
+									<span>{k.ort}</span>
+								</div>
+							</Link>
+						</motion.div>
 					))}
 				</div>
 			</div>

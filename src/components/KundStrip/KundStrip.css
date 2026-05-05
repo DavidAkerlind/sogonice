@@ -34,6 +34,13 @@
 	transform: translateY(-4px);
 	box-shadow: var(--sgn-shadow);
 }
+.sgn-strip__card-link {
+	display: block;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	inset: 0;
+}
 .sgn-strip__card img {
 	width: 100%;
 	height: 100%;

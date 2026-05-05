@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
@@ -53,6 +54,15 @@ const filters = [
 export default function Kundportratt() {
 	const [filter, setFilter] = useState('alla');
 	const [lightbox, setLightbox] = useState({ open: false, idx: 0 });
+	const location = useLocation();
+
+	useEffect(() => {
+		if (location.hash) {
+			const id = location.hash.replace('#', '');
+			const el = document.getElementById(id);
+			if (el) el.scrollIntoView({ behavior: 'smooth' });
+		}
+	}, [location]);
 
 	useEffect(() => {
 		const prev = document.title;
@@ -160,9 +170,11 @@ export default function Kundportratt() {
 							Vill du också bli <em>kund?</em>
 						</h2>
 						<p>Få en offert med smakprover inom 24 timmar.</p>
-						<a href="/#kontakt" className="sgn-btn sgn-btn--accent">
+						<Link
+							to="/#kontakt"
+							className="sgn-btn sgn-btn--accent">
 							Kontakta oss
-						</a>
+						</Link>
 					</div>
 				</section>
 			</main>
